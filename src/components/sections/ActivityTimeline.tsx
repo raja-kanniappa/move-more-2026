@@ -8,7 +8,6 @@ import {
 } from "recharts";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { ChartCard } from "@/components/shared/ChartCard";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { Activity } from "@/types";
 import { computeDailyTimeline } from "@/data/metrics";
 
@@ -32,12 +31,21 @@ export function ActivityTimeline({ activities }: ActivityTimelineProps) {
       title="Activity Timeline"
       description="Daily activity over the challenge period"
       action={
-        <Tabs value={view} onValueChange={(v) => setView(v as "count" | "distance")}>
-          <TabsList>
-            <TabsTrigger value="count">Count</TabsTrigger>
-            <TabsTrigger value="distance">Distance</TabsTrigger>
-          </TabsList>
-        </Tabs>
+        <div className="flex rounded-md border border-border overflow-hidden shrink-0">
+          {(["count", "distance"] as const).map((v) => (
+            <button
+              key={v}
+              onClick={() => setView(v)}
+              className={`px-2 py-1 text-[10px] transition-colors whitespace-nowrap capitalize ${
+                view === v
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-transparent text-muted-foreground hover:bg-muted"
+              }`}
+            >
+              {v === "count" ? "Count" : "Distance"}
+            </button>
+          ))}
+        </div>
       }
     >
       <ChartContainer config={chartConfig} className="h-[300px] w-full">
