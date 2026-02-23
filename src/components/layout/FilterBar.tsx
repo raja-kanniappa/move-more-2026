@@ -158,6 +158,11 @@ export function FilterBar({
           <ThemePicker current={currentTheme} onSelect={onSelectTheme} />
         </div>
       </div>
+      {maxDate && (
+        <p className="mt-1.5 text-[11px] text-muted-foreground">
+          Data available through {format(maxDate, "MMM d, yyyy")}
+        </p>
+      )}
     </div>
   );
 }
